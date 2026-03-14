@@ -142,6 +142,8 @@ header{border-bottom:3px solid var(--red)}
 .srclink{color:var(--blue);font-weight:600;font-size:.84rem}
 .srclink:hover{text-decoration:underline}
 .srcurl{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);margin-top:2px;word-break:break-all}
+.origbtn{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:none;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:10px;text-decoration:none}
+.origbtn:hover{background:#1a2e4a;color:#fff}
 /* YouTube intégré */
 .ytblock{margin:18px 0}
 .ytlbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:7px}
@@ -236,7 +238,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.35);padding:16px 20px;text
   <div class="sbox">
     <div class="spin"></div>
     <div class="sbt">Connexion aux flux RSS&hellip;</div>
-    <div class="sbs">BBC &middot; Al Jazeera &middot; France24 &middot; RFI &middot; DW &middot; Le Monde</div>
+    <div class="sbs">France24 &middot; RFI &middot; Le Monde &middot; BBC &middot; Al Jazeera &middot; DW</div>
   </div>
 </main>
 
@@ -256,17 +258,17 @@ footer{background:var(--navy);color:rgba(255,255,255,.35);padding:16px 20px;text
 
 <footer>
   MONDE VRAI &middot; Sources RSS directes &middot; Aucune IA g&eacute;n&eacute;rative &middot; H24<br>
-  <span style="opacity:.5">BBC &middot; Al Jazeera &middot; France24 &middot; RFI &middot; DW &middot; Le Monde &middot; The Guardian &middot; VOA &middot; NPR &middot; AllAfrica</span>
+  <span style="opacity:.5">France24 &middot; RFI &middot; Le Monde &middot; BBC &middot; Al Jazeera &middot; DW &middot; The Guardian &middot; VOA &middot; NPR &middot; AllAfrica</span>
 </footer>
 
 <script>
 var LS={
-  fr:{rel:["","Non confirm\u00e9","Source unique","Plusieurs sources","Fiable","Tr\u00e8s fiable"],featured:"\u00c0 LA UNE",read:"Lire \u2192",sources:"Sources",reliability:"Fiabilit\u00e9",allNews:"Toutes les actualit\u00e9s",arts:"articles",archTitle:"Archives",archDesc:"Actualit\u00e9s sauvegard\u00e9es automatiquement",noArch:"Aucune archive. Sauvegarde automatique \u00e0 chaque chargement.",mapTitle:"Vue par r\u00e9gion",srchPh:"Rechercher dans les articles charg\u00e9s",tags:["Gaza","Iran","Ukraine","Bitcoin","OTAN","Sahel","Chine","Br\u00e9sil","CAN","F1"],noRes:"Aucun r\u00e9sultat",nextLoad:"Prochain chargement",vidTitle:"Vid\u00e9o associ\u00e9e",sel:"S\u00e9lectionner une r\u00e9gion",loading:"Connexion aux flux RSS\u2026",retry:"R\u00e9essayer",active:"flux actifs"},
-  en:{rel:["","Unconfirmed","Single source","Several sources","Reliable","Very reliable"],featured:"FEATURED",read:"Read \u2192",sources:"Sources",reliability:"Reliability",allNews:"All news",arts:"articles",archTitle:"Archive",archDesc:"Automatically saved news",noArch:"No archive yet.",mapTitle:"View by region",srchPh:"Search loaded articles",tags:["Gaza","Iran","Ukraine","Bitcoin","NATO","Sahel","China","Brazil"],noRes:"No results",nextLoad:"Next load",vidTitle:"Related video",sel:"Select a region",loading:"Connecting to RSS\u2026",retry:"Retry",active:"active feeds"},
-  es:{rel:["","No confirmado","Fuente \u00fanica","Varias fuentes","Fiable","Muy fiable"],featured:"PORTADA",read:"Leer \u2192",sources:"Fuentes",reliability:"Fiabilidad",allNews:"Todas las noticias",arts:"art\u00edculos",archTitle:"Archivo",archDesc:"Noticias guardadas autom\u00e1ticamente",noArch:"Sin archivo a\u00fan.",mapTitle:"Vista por regi\u00f3n",srchPh:"Buscar en art\u00edculos",tags:["Gaza","Ir\u00e1n","Ucrania","Bitcoin","OTAN"],noRes:"Sin resultados",nextLoad:"Pr\u00f3xima carga",vidTitle:"V\u00eddeo relacionado",sel:"Seleccionar regi\u00f3n",loading:"Conectando\u2026",retry:"Reintentar",active:"feeds activos"},
-  pt:{rel:["","N\u00e3o confirmado","Fonte \u00fanica","V\u00e1rias fontes","Fi\u00e1vel","Muito fi\u00e1vel"],featured:"DESTAQUE",read:"Ler \u2192",sources:"Fontes",reliability:"Fiabilidade",allNews:"Todas as not\u00edcias",arts:"artigos",archTitle:"Arquivo",archDesc:"Not\u00edcias guardadas automaticamente",noArch:"Sem arquivo ainda.",mapTitle:"Vista por regi\u00e3o",srchPh:"Pesquisar artigos",tags:["Gaza","Ir\u00e3o","Ucr\u00e2nia","Bitcoin"],noRes:"Sem resultados",nextLoad:"Pr\u00f3xima carga",vidTitle:"V\u00eddeo relacionado",sel:"Selecionar regi\u00e3o",loading:"Conectando\u2026",retry:"Tentar novamente",active:"feeds activos"},
-  ar:{rel:["","\u063a\u064a\u0631 \u0645\u0624\u0643\u062f","\u0645\u0635\u062f\u0631 \u0648\u0627\u062d\u062f","\u0639\u062f\u0629 \u0645\u0635\u0627\u062f\u0631","\u0645\u0648\u062b\u0648\u0642","\u0645\u0648\u062b\u0648\u0642 \u062c\u062f\u0627\u064b"],featured:"\u0627\u0644\u062e\u0628\u0631 \u0627\u0644\u0631\u0626\u064a\u0633\u064a",read:"\u0627\u0642\u0631\u0623 \u2192",sources:"\u0627\u0644\u0645\u0635\u0627\u062f\u0631",reliability:"\u0627\u0644\u0645\u0648\u062b\u0648\u0642\u064a\u0629",allNews:"\u062c\u0645\u064a\u0639 \u0627\u0644\u0623\u062e\u0628\u0627\u0631",arts:"\u0645\u0642\u0627\u0644\u0627\u062a",archTitle:"\u0627\u0644\u0623\u0631\u0634\u064a\u0641",archDesc:"\u0623\u062e\u0628\u0627\u0631 \u0645\u062d\u0641\u0648\u0638\u0629",noArch:"\u0644\u0627 \u0623\u0631\u0634\u064a\u0641.",mapTitle:"\u0639\u0631\u0636 \u062d\u0633\u0628 \u0627\u0644\u0645\u0646\u0637\u0642\u0629",srchPh:"\u0627\u0628\u062d\u062b",tags:["\u063a\u0632\u0629","\u0625\u064a\u0631\u0627\u0646","\u0623\u0648\u0643\u0631\u0627\u0646\u064a\u0627","\u0628\u064a\u062a\u0643\u0648\u064a\u0646"],noRes:"\u0644\u0627 \u0646\u062a\u0627\u0626\u062c",nextLoad:"\u0627\u0644\u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0642\u0627\u062f\u0645",vidTitle:"\u0641\u064a\u062f\u064a\u0648 \u0630\u0648 \u0635\u0644\u0629",sel:"\u0627\u062e\u062a\u0631 \u0645\u0646\u0637\u0642\u0629",loading:"\u062a\u062d\u0645\u064a\u0644\u2026",retry:"\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0645\u062d\u0627\u0648\u0644\u0629",active:"\u0646\u0634\u0637"},
-  mg:{rel:["","Tsy voamarina","Loharano tokana","Loharano vitsivitsy","Azo itokiana","Azo itokiana tsara"],featured:"FEHEZANTENY",read:"Vakio \u2192",sources:"Loharano",reliability:"Azo itokiana",allNews:"Vaovao rehetra",arts:"lahatsoratra",archTitle:"Tahiry",archDesc:"Vaovao voatahiry ho azy",noArch:"Tsy misy tahiry mbola.",mapTitle:"Fijery amin'ny faritra",srchPh:"Tadiavo ao amin'ny lahatsoratra",tags:["Gaza","Iran","Ukraine","Bitcoin","Sahel"],noRes:"Tsy misy valiny",nextLoad:"Fanavaozana manaraka",vidTitle:"Video mifandraika",sel:"Safidio ny faritra",loading:"Fampifandraisana\u2026",retry:"Andamo indray",active:"drinan'asa"}
+  fr:{rel:["","Non confirm\u00e9","Source unique","Plusieurs sources","Fiable","Tr\u00e8s fiable"],featured:"\u00c0 LA UNE",read:"Lire \u2192",sources:"Sources",reliability:"Fiabilit\u00e9",allNews:"Toutes les actualit\u00e9s",arts:"articles",archTitle:"Archives",archDesc:"Actualit\u00e9s sauvegard\u00e9es automatiquement",noArch:"Aucune archive. Sauvegarde automatique \u00e0 chaque chargement.",mapTitle:"Vue par r\u00e9gion",srchPh:"Rechercher dans les articles charg\u00e9s",tags:["Gaza","Iran","Ukraine","Bitcoin","OTAN","Sahel","Chine","Br\u00e9sil","CAN","F1"],noRes:"Aucun r\u00e9sultat",nextLoad:"Prochain chargement",vidTitle:"Vid\u00e9o associ\u00e9e",orig:"Source originale",sel:"S\u00e9lectionner une r\u00e9gion",loading:"Connexion aux flux RSS\u2026",retry:"R\u00e9essayer",active:"flux actifs"},
+  en:{rel:["","Unconfirmed","Single source","Several sources","Reliable","Very reliable"],featured:"FEATURED",read:"Read \u2192",sources:"Sources",reliability:"Reliability",allNews:"All news",arts:"articles",archTitle:"Archive",archDesc:"Automatically saved news",noArch:"No archive yet.",mapTitle:"View by region",srchPh:"Search loaded articles",tags:["Gaza","Iran","Ukraine","Bitcoin","NATO","Sahel","China","Brazil"],noRes:"No results",nextLoad:"Next load",vidTitle:"Related video",orig:"Original source",sel:"Select a region",loading:"Connecting to RSS\u2026",retry:"Retry",active:"active feeds"},
+  es:{rel:["","No confirmado","Fuente \u00fanica","Varias fuentes","Fiable","Muy fiable"],featured:"PORTADA",read:"Leer \u2192",sources:"Fuentes",reliability:"Fiabilidad",allNews:"Todas las noticias",arts:"art\u00edculos",archTitle:"Archivo",archDesc:"Noticias guardadas autom\u00e1ticamente",noArch:"Sin archivo.",mapTitle:"Vista por regi\u00f3n",srchPh:"Buscar en art\u00edculos",tags:["Gaza","Ir\u00e1n","Ucrania","Bitcoin","OTAN"],noRes:"Sin resultados",nextLoad:"Pr\u00f3xima carga",vidTitle:"V\u00eddeo relacionado",orig:"Fuente original",sel:"Seleccionar regi\u00f3n",loading:"Conectando\u2026",retry:"Reintentar",active:"feeds activos"},
+  pt:{rel:["","N\u00e3o confirmado","Fonte \u00fanica","V\u00e1rias fontes","Fi\u00e1vel","Muito fi\u00e1vel"],featured:"DESTAQUE",read:"Ler \u2192",sources:"Fontes",reliability:"Fiabilidade",allNews:"Todas as not\u00edcias",arts:"artigos",archTitle:"Arquivo",archDesc:"Not\u00edcias guardadas automaticamente",noArch:"Sem arquivo.",mapTitle:"Vista por regi\u00e3o",srchPh:"Pesquisar artigos",tags:["Gaza","Ir\u00e3o","Ucr\u00e2nia","Bitcoin"],noRes:"Sem resultados",nextLoad:"Pr\u00f3xima carga",vidTitle:"V\u00eddeo relacionado",orig:"Fonte original",sel:"Selecionar regi\u00e3o",loading:"Conectando\u2026",retry:"Tentar novamente",active:"feeds activos"},
+  ar:{rel:["","\u063a\u064a\u0631 \u0645\u0624\u0643\u062f","\u0645\u0635\u062f\u0631 \u0648\u0627\u062d\u062f","\u0639\u062f\u0629 \u0645\u0635\u0627\u062f\u0631","\u0645\u0648\u062b\u0648\u0642","\u0645\u0648\u062b\u0648\u0642 \u062c\u062f\u0627\u064b"],featured:"\u0627\u0644\u062e\u0628\u0631 \u0627\u0644\u0631\u0626\u064a\u0633\u064a",read:"\u0627\u0642\u0631\u0623 \u2192",sources:"\u0627\u0644\u0645\u0635\u0627\u062f\u0631",reliability:"\u0627\u0644\u0645\u0648\u062b\u0648\u0642\u064a\u0629",allNews:"\u062c\u0645\u064a\u0639 \u0627\u0644\u0623\u062e\u0628\u0627\u0631",arts:"\u0645\u0642\u0627\u0644\u0627\u062a",archTitle:"\u0627\u0644\u0623\u0631\u0634\u064a\u0641",archDesc:"\u0623\u062e\u0628\u0627\u0631 \u0645\u062d\u0641\u0648\u0638\u0629",noArch:"\u0644\u0627 \u0623\u0631\u0634\u064a\u0641.",mapTitle:"\u0639\u0631\u0636 \u062d\u0633\u0628 \u0627\u0644\u0645\u0646\u0637\u0642\u0629",srchPh:"\u0627\u0628\u062d\u062b",tags:["\u063a\u0632\u0629","\u0625\u064a\u0631\u0627\u0646","\u0623\u0648\u0643\u0631\u0627\u0646\u064a\u0627","\u0628\u064a\u062a\u0643\u0648\u064a\u0646"],noRes:"\u0644\u0627 \u0646\u062a\u0627\u0626\u062c",nextLoad:"\u0627\u0644\u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0642\u0627\u062f\u0645",vidTitle:"\u0641\u064a\u062f\u064a\u0648 \u0630\u0648 \u0635\u0644\u0629",orig:"\u0627\u0644\u0645\u0635\u062f\u0631 \u0627\u0644\u0623\u0635\u0644\u064a",sel:"\u0627\u062e\u062a\u0631 \u0645\u0646\u0637\u0642\u0629",loading:"\u062a\u062d\u0645\u064a\u0644\u2026",retry:"\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0645\u062d\u0627\u0648\u0644\u0629",active:"\u0646\u0634\u0637"},
+  mg:{rel:["","Tsy voamarina","Loharano tokana","Loharano vitsivitsy","Azo itokiana","Azo itokiana tsara"],featured:"FEHEZANTENY",read:"Vakio \u2192",sources:"Loharano",reliability:"Azo itokiana",allNews:"Vaovao rehetra",arts:"lahatsoratra",archTitle:"Tahiry",archDesc:"Vaovao voatahiry ho azy",noArch:"Tsy misy tahiry mbola.",mapTitle:"Fijery amin'ny faritra",srchPh:"Tadiavo ao amin'ny lahatsoratra",tags:["Gaza","Iran","Ukraine","Bitcoin","Sahel"],noRes:"Tsy misy valiny",nextLoad:"Fanavaozana manaraka",vidTitle:"Video mifandraika",orig:"Loharano",sel:"Safidio ny faritra",loading:"Fampifandraisana\u2026",retry:"Andamo indray",active:"drinan'asa"}
 };
 var L="fr";
 function t(k){return(LS[L]||LS.fr)[k]||k;}
@@ -296,19 +298,20 @@ function rc(k){return(RG[k]||RG.wo).cls;}
 function rf(k){return(RG[k]||RG.wo).flag;}
 function rclr(n){return["","#ef5350","#ff9800","#fdd835","#66bb6a","#43a047"][n]||"#aaa";}
 
+// Sources françaises EN PREMIER pour que les articles arrivent en français
 var FEEDS=[
+  {id:"f24", url:"https://www.france24.com/fr/rss",                   name:"France 24",    col:"#003e6b",rel:4},
+  {id:"rfi", url:"https://www.rfi.fr/fr/rss",                         name:"RFI",          col:"#c0392b",rel:4},
+  {id:"lm",  url:"https://www.lemonde.fr/rss/une.xml",                name:"Le Monde",     col:"#2c3e50",rel:5},
+  {id:"bbcm",url:"https://feeds.bbci.co.uk/mundo/rss.xml",           name:"BBC Mundo",    col:"#bb1919",rel:5},
+  {id:"alla",url:"https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",name:"AllAfrica",col:"#7d6608",rel:3},
   {id:"bbc", url:"https://feeds.bbci.co.uk/news/world/rss.xml",      name:"BBC World",    col:"#bb1919",rel:5},
   {id:"alj", url:"https://www.aljazeera.com/xml/rss/all.xml",         name:"Al Jazeera",   col:"#c8960c",rel:4},
   {id:"dw",  url:"https://rss.dw.com/rdf/rss-en-all",                 name:"DW",           col:"#007b5e",rel:4},
   {id:"gua", url:"https://www.theguardian.com/world/rss",             name:"The Guardian", col:"#1a5276",rel:4},
   {id:"voa", url:"https://feeds.voanews.com/voaenglish/world",        name:"VOA",          col:"#1a3a6b",rel:4},
-  {id:"f24", url:"https://www.france24.com/fr/rss",                   name:"France 24",    col:"#003e6b",rel:4},
-  {id:"rfi", url:"https://www.rfi.fr/fr/rss",                         name:"RFI",          col:"#c0392b",rel:4},
-  {id:"lm",  url:"https://www.lemonde.fr/rss/une.xml",                name:"Le Monde",     col:"#2c3e50",rel:5},
   {id:"npr", url:"https://feeds.npr.org/1004/rss.xml",                name:"NPR",          col:"#1b4f72",rel:4},
-  {id:"bspt",url:"https://feeds.bbci.co.uk/sport/rss.xml",           name:"BBC Sport",    col:"#bb1919",rel:5,cat:"sport"},
-  {id:"bbcm",url:"https://feeds.bbci.co.uk/mundo/rss.xml",           name:"BBC Mundo",    col:"#bb1919",rel:5},
-  {id:"alla",url:"https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",name:"AllAfrica",col:"#7d6608",rel:3}
+  {id:"bspt",url:"https://feeds.bbci.co.uk/sport/rss.xml",           name:"BBC Sport",    col:"#bb1919",rel:5,cat:"sport"}
 ];
 
 function stripH(h){
@@ -542,7 +545,10 @@ var Modal={
     var body=(a.body&&a.body.includes("<p")&&a.body.length>60)?a.body:"<p>"+a.summary+"</p>";
     var rd=tRel(a.reliability);
 
-    // Vidéo YouTube intégrée — recherche automatique sur le titre de l'article
+    // Bouton vers la source originale (comme la première version)
+    var origBtn=a.articleUrl?'<a class="origbtn" href="'+a.articleUrl+'" target="_blank" rel="noopener">\u2197 '+t("orig")+'</a>':"";
+
+    // Vidéo YouTube intégrée
     var ytQ=encodeURIComponent(a.headline);
     var ytBlock='<div class="ytblock">'
       +'<div class="ytlbl">'+t("vidTitle")+'</div>'
@@ -561,6 +567,7 @@ var Modal={
       +'<div class="relw">'+relBar(a.reliability)+'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--t3);margin-left:4px">'+rd+'</span></div></div></div>'
       +'<div class="mbody">'
       +'<div class="atext">'+body+'</div>'
+      +(origBtn?'<div style="margin-bottom:18px">'+origBtn+'</div>':"")
       +ytBlock
       +'<hr class="divider">'
       +'<div class="relblock"><div class="mlbl">'+t("reliability")+'</div>'
@@ -569,14 +576,13 @@ var Modal={
       +'<div class="reldesc">'+rd+'</div></div>'
       +'<div class="mlbl">'+t("sources")+'</div>'
       +'<div class="srcrow"><span class="srcbadge" style="background:'+a.source.color+'20;color:'+a.source.color+'">RSS</span>'
-      +'<div><span class="srclink">'+a.source.name+'</span>'
+      +'<div><a class="srclink" href="'+(a.articleUrl||"#")+'" target="_blank" rel="noopener">'+a.source.name+' \u2197</a>'
       +'<div class="srcurl">'+(a.articleUrl||"")+'</div></div></div></div>';
 
     document.getElementById("amod").classList.add("open");
     document.body.style.overflow="hidden";
   },
   close:function(){
-    // Arrêter la vidéo en réinitialisant l'iframe
     var iframe=document.querySelector("#mcontent iframe");
     if(iframe){var src=iframe.src;iframe.src="";iframe.src=src;}
     document.getElementById("amod").classList.remove("open");
@@ -634,7 +640,7 @@ function startCd(){
 var App={
   load:function(){
     if(G.busy)return;G.busy=true;prog(10);
-    document.getElementById("main").innerHTML='<div class="sbox"><div class="spin"></div><div class="sbt">'+t("loading")+'</div><div class="sbs">BBC \u00b7 Al Jazeera \u00b7 France24 \u00b7 RFI \u00b7 DW \u00b7 Le Monde</div></div>';
+    document.getElementById("main").innerHTML='<div class="sbox"><div class="spin"></div><div class="sbt">'+t("loading")+'</div><div class="sbs">France24 \u00b7 RFI \u00b7 Le Monde \u00b7 BBC \u00b7 Al Jazeera \u00b7 DW</div></div>';
     fetchAll().then(function(raw){
       prog(85);raw.sort(function(a,b){return(b.ms||0)-(a.ms||0);});
       var unique=dedup(raw);G.all=unique;G.filtered=applyFilter(unique,G.cat);
