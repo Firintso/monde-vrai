@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/feeds", "destination": "/api/feeds.js" },
+    { "source": "/(.*)", "destination": "/public/index.html" }
+  ]
+}
