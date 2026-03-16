@@ -1,0 +1,8 @@
+{
+  "name": "monde-vrai",
+  "version": "1.0.0",
+  "description": "Agrégateur RSS international",
+  "dependencies": {
+    "@xmldom/xmldom": "^0.8.10"
+  }
+}
