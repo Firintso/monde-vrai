@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr" id="root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONDE VRAI — Flux RSS Internationaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06080d;--bg2:#0a0e16;--bg3:#0f1520;--bg4:#141c28;
+  --red:#e8304a;--cyan:#00c2d4;--gold:#f5a623;
+  --t:#dde4f0;--t2:#7a8ca8;--t3:#3a4a60;
+  --bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:'Barlow',sans-serif;line-height:1.6;overflow-x:hidden}
+button{cursor:pointer;font-family:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(0,194,212,.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(232,48,74,.04) 0%,transparent 50%);pointer-events:none;z-index:0}
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--red),var(--gold),var(--cyan));z-index:9999;transition:width .4s;width:0}
+.topbar{position:relative;z-index:100;background:rgba(6,8,13,.98);border-bottom:1px solid var(--bd);padding:0 28px;display:flex;justify-content:space-between;align-items:center;height:38px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em}
+.tlive{color:var(--red);display:flex;align-items:center;gap:7px;font-weight:400;text-transform:uppercase}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.tclock{color:var(--t2)}
+.tbtn{background:transparent;border:1px solid var(--bd2);color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 12px;letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.tbtn:hover{border-color:var(--cyan);color:var(--cyan)}
+header{position:relative;z-index:50;background:var(--bg2);border-bottom:2px solid var(--red);overflow:hidden}
+.hwrap{max-width:1400px;margin:0 auto;padding:20px 28px 18px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px}
+.hleft{font-family:'JetBrains Mono',monospace;font-size:10px;line-height:2.2;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}
+.hleft strong{color:rgba(0,194,212,.7)}
+.brand{text-align:center}
+.bname{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:900;letter-spacing:.02em;line-height:1;color:var(--t);text-transform:uppercase}
+.bname em{color:var(--red);font-style:normal}
+.btag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.22em;text-transform:uppercase;display:block;margin-top:5px}
+.hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.langs{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}
+.lbtn{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 9px;border:1px solid var(--bd);background:transparent;color:var(--t3);letter-spacing:.06em;transition:all .2s}
+.lbtn:hover{border-color:var(--t2);color:var(--t2)}
+.lbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.sbar{display:flex;border:1px solid var(--bd);background:var(--bg3);transition:border-color .2s}
+.sbar:focus-within{border-color:var(--cyan)}
+.sin{border:none;outline:none;padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;width:210px;background:transparent;color:var(--t)}
+.sin::placeholder{color:var(--t3)}
+.sbtn{background:var(--red);color:#fff;border:none;padding:7px 16px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;transition:background .2s}
+.sbtn:hover{background:#ff4d63}
+.ticker{background:var(--bg3);overflow:hidden;position:relative;padding:8px 0;border-bottom:1px solid var(--bd);z-index:40}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(to right,var(--bg3),transparent)}
+.ticker::after{right:0;background:linear-gradient(to left,var(--bg3),transparent)}
+.tlbl{position:absolute;left:0;top:0;bottom:0;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;display:flex;align-items:center;padding:0 16px;z-index:3;white-space:nowrap;text-transform:uppercase;font-weight:500}
+.ttrack{display:flex;animation:tscroll 90s linear infinite;padding-left:100px;white-space:nowrap}
+.ttrack:hover{animation-play-state:paused}
+@keyframes tscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.titem{color:var(--t2);font-size:11px;padding:0 24px;border-left:1px solid var(--bd2);display:inline-block;font-family:'Barlow',sans-serif}
+.mainnav{background:rgba(6,8,13,.97);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:90}
+.navwrap{max-width:1400px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;align-items:stretch}
+.navwrap::-webkit-scrollbar{display:none}
+.nt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:12px 15px;background:none;border:none;border-bottom:2px solid transparent;color:var(--t3);white-space:nowrap;transition:all .2s;margin-bottom:-1px}
+.nt:hover{color:var(--t)}
+.nt.on{color:var(--red);border-bottom-color:var(--red)}
+.nt.view.on{color:var(--cyan);border-bottom-color:var(--cyan)}
+.navsep{width:1px;background:var(--bd);margin:9px 4px;flex-shrink:0}
+.navinfo{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);padding:0 16px;display:flex;align-items:center;margin-left:auto;white-space:nowrap;flex-shrink:0}
+.content{max-width:1400px;margin:0 auto;padding:28px 28px 60px;position:relative;z-index:1}
+.sbox{text-align:center;padding:80px 20px}
+.spin{width:36px;height:36px;border:2px solid var(--bd2);border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sbt{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--t);margin-bottom:7px;text-transform:uppercase;letter-spacing:.05em}
+.sbs{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);line-height:2.2;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.rbtn{background:transparent;border:1px solid var(--red);color:var(--red);padding:9px 26px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
+.rbtn:hover{background:rgba(232,48,74,.1)}
+.feat{display:grid;grid-template-columns:1fr 320px;margin-bottom:28px;border:1px solid var(--bd);position:relative;overflow:hidden}
+.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--gold) 40%,transparent)}
+.fmain{padding:36px 32px 28px;background:var(--bg2);border-right:1px solid var(--bd)}
+.fside{padding:22px;background:var(--bg3);display:flex;flex-direction:column;gap:12px}
+.fkick{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.fkick::before{content:'';width:28px;height:1px;background:var(--red)}
+.fhl{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;line-height:1.1;color:var(--t);margin-bottom:14px;letter-spacing:.01em;text-transform:uppercase}
+.fsum{font-size:.95rem;color:var(--t2);line-height:1.75;margin-bottom:18px;font-weight:300}
+.fmeta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.fcta{background:var(--red);color:#fff;border:none;padding:11px 20px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s;margin-top:auto;text-align:center;display:block;width:100%}
+.fcta:hover{background:#ff4d63}
+.fslbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--t3)}
+.fimg{width:100%;height:150px;object-fit:cover;border-bottom:1px solid var(--bd);display:block;filter:saturate(.75)}
+.fslinks{display:flex;flex-direction:column}
+.fslink{font-size:.82rem;font-weight:500;color:var(--t2);cursor:pointer;line-height:1.4;border-bottom:1px solid var(--bd);padding:10px 0;transition:color .15s}
+.fslink:last-child{border-bottom:none}
+.fslink:hover{color:var(--t)}
+.sechd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.sechd h2{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--t3)}
+.seccnt{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);margin-bottom:32px}
+.card{background:var(--bg2);display:flex;flex-direction:column;cursor:pointer;transition:background .15s;overflow:hidden}
+.card:hover{background:var(--bg3)}
+.cimg{width:100%;height:135px;object-fit:cover;display:block;filter:saturate(.65);transition:filter .3s;border-bottom:1px solid var(--bd)}
+.card:hover .cimg{filter:saturate(.9)}
+.cph{height:46px;background:var(--bg3);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--bd);font-size:1.2rem;opacity:.4}
+.cbody{padding:15px;display:flex;flex-direction:column;flex:1}
+.creg{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;padding:2px 6px;display:inline-block;margin-bottom:8px;width:fit-content;border:1px solid currentColor;opacity:.65}
+.csrc{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-bottom:7px;display:flex;align-items:center;gap:5px;text-transform:uppercase;letter-spacing:.08em}
+.fdot{width:5px;height:5px;border-radius:50%;display:inline-block;flex-shrink:0}
+.chl{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.25;margin-bottom:8px;color:var(--t);transition:color .15s;text-transform:uppercase;letter-spacing:.02em}
+.card:hover .chl{color:var(--red)}
+.csum{font-size:.8rem;color:var(--t2);line-height:1.55;flex:1;margin-bottom:10px;font-weight:300}
+.cft{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);margin-top:auto}
+.cdate{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3)}
+.cread{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);background:none;border:none;letter-spacing:.1em;text-transform:uppercase}
+.relw{display:inline-flex;align-items:center;gap:3px}
+.rs{width:10px;height:3px;display:inline-block;background:var(--bd2)}
+.rslg{width:28px;height:5px;display:inline-block;background:var(--bd2)}
+.rme{color:#ff7043;border-color:#ff7043}.reu{color:#42a5f5;border-color:#42a5f5}.raf{color:#ffca28;border-color:#ffca28}
+.ram{color:#26c96f;border-color:#26c96f}.ras{color:#ab7ff0;border-color:#ab7ff0}.rru{color:#78909c;border-color:#78909c}.rwo{color:#546e7a;border-color:#546e7a}
+.mapgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px;margin-bottom:24px}
+.mcard{border:1px solid var(--bd);background:var(--bg2);padding:16px;cursor:pointer;transition:all .2s}
+.mcard:hover,.mcard.sel{border-color:var(--red);background:var(--bg3)}
+.mcflag{font-size:1.3rem;margin-bottom:7px;display:block;opacity:.75}
+.mcname{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
+.mccnt{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-bottom:7px;letter-spacing:.1em}
+.mctop{font-size:.74rem;color:var(--t2);line-height:1.4;font-weight:300}
+.archtitle{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:900;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.archsub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-bottom:22px;letter-spacing:.12em;text-transform:uppercase}
+.archlist{max-width:700px}
+.architem{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border:1px solid var(--bd);background:var(--bg2);cursor:pointer;margin-bottom:-1px;transition:all .15s}
+.architem:hover,.architem.on{background:var(--bg3);border-color:var(--red);z-index:1;position:relative}
+.aidate{font-family:'JetBrains Mono',monospace;font-size:.88rem}
+.aimeta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-top:3px;letter-spacing:.08em}
+.aiempty{padding:36px;background:var(--bg2);border:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:center;line-height:2.5;letter-spacing:.1em;text-transform:uppercase}
+.mbg{display:none;position:fixed;inset:0;background:rgba(3,5,9,.94);backdrop-filter:blur(10px);z-index:500;overflow-y:auto;padding:36px 14px}
+.mbg.open{display:block}
+.mdl{background:var(--bg2);max-width:880px;margin:0 auto;position:relative;border:1px solid var(--bd2);animation:mup .22s ease;overflow:hidden}
+.mdl::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--gold) 40%,transparent)}
+@keyframes mup{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.mclose{position:absolute;top:13px;right:16px;background:none;border:1px solid var(--bd);color:var(--t3);z-index:10;font-size:16px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.mclose:hover{border-color:var(--red);color:var(--red)}
+.mhead{padding:26px 32px 20px;border-bottom:1px solid var(--bd)}
+.mhimg{width:100%;height:210px;object-fit:cover;display:block;margin-bottom:16px;filter:saturate(.7);border-bottom:1px solid var(--bd)}
+.mhl{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:800;line-height:1.15;color:var(--t);margin:10px 0;text-transform:uppercase;letter-spacing:.02em}
+.mmeta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+.mbody{padding:26px 32px}
+.atext{font-size:.9rem;line-height:1.9;color:var(--t2);margin-bottom:22px;font-weight:300}
+.atext p{margin-bottom:12px}
+.divider{border:none;border-top:1px solid var(--bd);margin:20px 0}
+.mlbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.relblock{background:var(--bg3);border:1px solid var(--bd);padding:15px 18px;margin-bottom:18px}
+.reldesc{font-size:.82rem;color:var(--t2);line-height:1.6;margin-top:5px;font-weight:300}
+.srcrow{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.srcbadge{font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 6px;white-space:nowrap;flex-shrink:0;margin-top:2px;border:1px solid currentColor;letter-spacing:.1em}
+.srclink{color:var(--cyan);font-weight:500;font-size:.84rem;transition:color .15s}
+.srclink:hover{color:#33d8e8}
+.srcurl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-top:3px;word-break:break-all}
+.origbtn{display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--bd2);color:var(--t2);padding:9px 18px;font-family:'JetBrains Mono',monospace;font-size:10px;margin-top:10px;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;text-decoration:none}
+.origbtn:hover{border-color:var(--cyan);color:var(--cyan)}
+.ytblock{margin:20px 0}
+.ytlbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ytlbl::before{content:'';display:inline-block;width:10px;height:10px;background:#cc0000;flex-shrink:0}
+.ytwrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;border:1px solid var(--bd)}
+.ytwrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.soverlay{display:none;position:fixed;inset:0;background:rgba(3,5,9,.96);backdrop-filter:blur(14px);z-index:400;padding:56px 14px;overflow-y:auto}
+.soverlay.open{display:block}
+.smodal{background:var(--bg2);max-width:760px;margin:0 auto;border:1px solid var(--bd2)}
+.shd{display:flex;align-items:center;border-bottom:1px solid var(--bd);padding:16px 22px;gap:12px}
+.sinp{flex:1;border:none;outline:none;font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;color:var(--t);background:transparent;text-transform:uppercase;letter-spacing:.04em}
+.sinp::placeholder{color:var(--t3)}
+.scloseX{background:none;border:1px solid var(--bd);color:var(--t3);font-size:14px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.scloseX:hover{border-color:var(--red);color:var(--red)}
+.sbody{padding:14px 22px;min-height:160px;max-height:62vh;overflow-y:auto}
+.sph{text-align:center;padding:28px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);line-height:2.5;letter-spacing:.1em;text-transform:uppercase}
+.stag{display:inline-block;background:var(--bg3);border:1px solid var(--bd);padding:3px 12px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin:3px;cursor:pointer;transition:all .2s;letter-spacing:.08em;text-transform:uppercase}
+.stag:hover{border-color:var(--red);color:var(--red)}
+.sr{padding:11px 0;border-bottom:1px solid var(--bd);cursor:pointer;transition:padding .15s}
+.sr:hover{padding-left:6px}
+.sr:hover .srhl{color:var(--red)}
+.srhl{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:var(--t);margin-bottom:3px;transition:color .15s;text-transform:uppercase;letter-spacing:.02em}
+.srsum{font-size:.79rem;color:var(--t2);line-height:1.5;font-weight:300}
+.snote{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);padding:9px 0;text-align:center;border-top:1px solid var(--bd);margin-top:6px;letter-spacing:.1em;text-transform:uppercase}
+footer{background:var(--bg2);border-top:1px solid var(--bd);color:var(--t3);padding:18px 28px;font-family:'JetBrains Mono',monospace;font-size:9px;line-height:2.5;letter-spacing:.12em;text-align:center;position:relative;z-index:1;text-transform:uppercase}
+@media(max-width:1024px){.hwrap{grid-template-columns:1fr;text-align:center}.hright{align-items:center}.feat{grid-template-columns:1fr}.fmain{padding:22px}.fside{border-top:1px solid var(--bd)}.grid{grid-template-columns:1fr 1fr}.mhead,.mbody{padding:18px 22px}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.hwrap,.content,.topbar{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div class="topbar">
+  <div class="tlive"><div class="pulse"></div>SIGNAL ACTIF</div>
+  <div class="tclock" id="clock"></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span id="cdlbl" style="color:var(--t3);font-family:'JetBrains Mono',monospace;font-size:10px"></span>
+    <button class="tbtn" onclick="App.load()">&#8635; SYNC</button>
+  </div>
+</div>
+<header>
+  <div class="hwrap">
+    <div class="hleft">
+      <span>AUCUN PARTI · AUCUNE PROPAGANDE · AUCUNE CENSURE</span>
+      <strong>✓ FLUX RSS VÉRIFIÉS · MISE À JOUR H24</strong>
+    </div>
+    <div class="brand">
+      <div class="bname">MONDE <em>VRAI</em></div>
+      <span class="btag">Agrégateur RSS international · En direct</span>
+    </div>
+    <div class="hright">
+      <div class="langs">
+        <button class="lbtn on" onclick="setLang('fr',this)">&#127467;&#127479; FR</button>
+        <button class="lbtn" onclick="setLang('en',this)">&#127468;&#127463; EN</button>
+        <button class="lbtn" onclick="setLang('es',this)">&#127466;&#127480; ES</button>
+        <button class="lbtn" onclick="setLang('pt',this)">&#127463;&#127479; PT</button>
+        <button class="lbtn" onclick="setLang('ar',this)">&#127480;&#127462; AR</button>
+        <button class="lbtn" onclick="setLang('mg',this)">&#127474;&#127468; MG</button>
+      </div>
+      <div class="sbar">
+        <input class="sin" id="si" placeholder="Rechercher..." onkeydown="if(event.key==='Enter')Search.open()">
+        <button class="sbtn" onclick="Search.open()">SEARCH</button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="ticker">
+  <div class="tlbl">LIVE</div>
+  <div class="ttrack" id="ttrack"><div class="titem">Connexion aux flux RSS...</div></div>
+</div>
+<nav class="mainnav">
+  <div class="navwrap">
+    <button class="nt on" data-cat="all" onclick="App.setCat('all',this)">&#127758; Tout</button>
+    <button class="nt" data-cat="conflit" onclick="App.setCat('conflit',this)">&#9876; Conflits</button>
+    <button class="nt" data-cat="politique" onclick="App.setCat('politique',this)">&#127963; Politique</button>
+    <button class="nt" data-cat="economie" onclick="App.setCat('economie',this)">&#128200; Économie</button>
+    <button class="nt" data-cat="climat" onclick="App.setCat('climat',this)">&#127757; Climat</button>
+    <button class="nt" data-cat="science" onclick="App.setCat('science',this)">&#128300; Science</button>
+    <button class="nt" data-cat="sport" onclick="App.setCat('sport',this)">&#9917; Sport</button>
+    <button class="nt" data-cat="societe" onclick="App.setCat('societe',this)">&#128101; Société</button>
+    <div class="navsep"></div>
+    <button class="nt view on" data-view="list" onclick="App.setView('list',this)">&#128240; Actualités</button>
+    <button class="nt view" data-view="map" onclick="App.setView('map',this)">&#128506; Carte</button>
+    <button class="nt view" data-view="archive" onclick="App.setView('archive',this)">&#128451; Archives</button>
+    <span class="navinfo" id="navinfo"></span>
+  </div>
+</nav>
+<main class="content" id="main">
+  <div class="sbox"><div class="spin"></div><div class="sbt">Chargement des flux...</div><div class="sbs">France24 · RFI · Le Monde · BBC · Al Jazeera · DW</div></div>
+</main>
+<div class="mbg" id="amod" onclick="if(event.target===this)Modal.close()"><div class="mdl"><div id="mcontent"></div></div></div>
+<div class="soverlay" id="sovl" onclick="if(event.target===this)Search.close()">
+  <div class="smodal">
+    <div class="shd"><input class="sinp" id="sinp" placeholder="Rechercher..." onkeydown="if(event.key==='Enter')Search.run();if(event.key==='Escape')Search.close()"><button class="scloseX" onclick="Search.close()">✕</button></div>
+    <div class="sbody" id="sbody"></div>
+  </div>
+</div>
+<footer>
+  MONDE VRAI · Sources RSS directes · Aucune IA générative · H24<br>
+  <span>France24 · RFI · Le Monde · BBC · Al Jazeera · DW · The Guardian · VOA · NPR · AllAfrica</span>
+</footer>
+<script>
+var LS={
+  fr:{rel:["","Non confirmé","Source unique","Plusieurs sources","Fiable","Très fiable"],featured:"À LA UNE",read:"Lire →",sources:"Sources",reliability:"Fiabilité",allNews:"Toutes les actualités",arts:"articles",archTitle:"Archives",archDesc:"Actualités sauvegardées automatiquement",noArch:"Aucune archive.",mapTitle:"Vue par région",srchPh:"Rechercher dans les articles",tags:["Gaza","Iran","Ukraine","Bitcoin","OTAN","Sahel","Chine","Brésil","CAN","F1"],noRes:"Aucun résultat",nextLoad:"Prochain chargement",vidTitle:"Vidéo associée",orig:"Source originale",sel:"Sélectionner une région",loading:"Chargement des flux...",retry:"Réessayer",active:"flux actifs"},
+  en:{rel:["","Unconfirmed","Single source","Several sources","Reliable","Very reliable"],featured:"FEATURED",read:"Read →",sources:"Sources",reliability:"Reliability",allNews:"All news",arts:"articles",archTitle:"Archive",archDesc:"Automatically saved news",noArch:"No archive yet.",mapTitle:"View by region",srchPh:"Search articles",tags:["Gaza","Iran","Ukraine","Bitcoin","NATO","Sahel","China","Brazil"],noRes:"No results",nextLoad:"Next load",vidTitle:"Related video",orig:"Original source",sel:"Select a region",loading:"Loading feeds...",retry:"Retry",active:"active feeds"},
+  es:{rel:["","No confirmado","Fuente única","Varias fuentes","Fiable","Muy fiable"],featured:"PORTADA",read:"Leer →",sources:"Fuentes",reliability:"Fiabilidad",allNews:"Todas las noticias",arts:"artículos",archTitle:"Archivo",archDesc:"Noticias guardadas",noArch:"Sin archivo.",mapTitle:"Vista por región",srchPh:"Buscar artículos",tags:["Gaza","Irán","Ucrania","Bitcoin","OTAN"],noRes:"Sin resultados",nextLoad:"Próxima carga",vidTitle:"Vídeo relacionado",orig:"Fuente original",sel:"Seleccionar región",loading:"Cargando...",retry:"Reintentar",active:"feeds activos"},
+  pt:{rel:["","Não confirmado","Fonte única","Várias fontes","Fiável","Muito fiável"],featured:"DESTAQUE",read:"Ler →",sources:"Fontes",reliability:"Fiabilidade",allNews:"Todas as notícias",arts:"artigos",archTitle:"Arquivo",archDesc:"Notícias guardadas",noArch:"Sem arquivo.",mapTitle:"Vista por região",srchPh:"Pesquisar artigos",tags:["Gaza","Irão","Ucrânia","Bitcoin"],noRes:"Sem resultados",nextLoad:"Próxima carga",vidTitle:"Vídeo relacionado",orig:"Fonte original",sel:"Selecionar região",loading:"Carregando...",retry:"Tentar novamente",active:"feeds ativos"},
+  ar:{rel:["","غير مؤكد","مصدر واحد","عدة مصادر","موثوق","موثوق جداً"],featured:"الخبر الرئيسي",read:"اقرأ →",sources:"المصادر",reliability:"الموثوقية",allNews:"جميع الأخبار",arts:"مقالات",archTitle:"الأرشيف",archDesc:"أخبار محفوظة",noArch:"لا أرشيف.",mapTitle:"حسب المنطقة",srchPh:"ابحث",tags:["غزة","إيران","أوكرانيا","بيتكوين"],noRes:"لا نتائج",nextLoad:"التحميل القادم",vidTitle:"فيديو ذو صلة",orig:"المصدر الأصلي",sel:"اختر منطقة",loading:"تحميل...",retry:"إعادة",active:"نشط"},
+  mg:{rel:["","Tsy voamarina","Loharano tokana","Loharano vitsivitsy","Azo itokiana","Azo itokiana tsara"],featured:"LEHIBE",read:"Vakio →",sources:"Loharano",reliability:"Azo itokiana",allNews:"Vaovao rehetra",arts:"lahatsoratra",archTitle:"Tahiry",archDesc:"Voatahiry ho azy",noArch:"Tsy misy tahiry.",mapTitle:"Fijery amin'ny faritra",srchPh:"Tadiavo",tags:["Gaza","Iran","Ukraine","Bitcoin","Sahel"],noRes:"Tsy misy valiny",nextLoad:"Fanavaozana manaraka",vidTitle:"Video mifandraika",orig:"Loharano",sel:"Safidio",loading:"Fampifandraisana...",retry:"Andamo indray",active:"drinan'asa"}
+};
+var L="fr";
+function t(k){return(LS[L]||LS.fr)[k]||k;}
+function tRel(i){var a=(LS[L]||LS.fr).rel;return(a&&a[i])?a[i]:"";}
+function setLang(code,btn){
+  L=code;document.querySelectorAll(".lbtn").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");
+  document.getElementById("root").lang=code;document.getElementById("root").dir=(code==="ar")?"rtl":"ltr";
+  if(G.all.length)App.render();buildTicker(G.all);Search.showPh();
+}
+var RG={
+  me:{flag:"🕌",fr:"Moyen-Orient",en:"Middle East",es:"Oriente Medio",pt:"Médio Oriente",ar:"الشرق الأوسط",mg:"Atsinanana Afovoany",cls:"rme"},
+  eu:{flag:"🏛",fr:"Europe",en:"Europe",es:"Europa",pt:"Europa",ar:"أوروبا",mg:"Eoropa",cls:"reu"},
+  af:{flag:"🌍",fr:"Afrique",en:"Africa",es:"África",pt:"África",ar:"أفريقيا",mg:"Afrika",cls:"raf"},
+  am:{flag:"🌎",fr:"Amériques",en:"Americas",es:"Américas",pt:"Américas",ar:"الأمريكتان",mg:"Amerika",cls:"ram"},
+  as:{flag:"🏯",fr:"Asie",en:"Asia",es:"Asia",pt:"Ásia",ar:"آسيا",mg:"Azia",cls:"ras"},
+  ru:{flag:"🏔",fr:"Russie & AC",en:"Russia & CA",es:"Rusia",pt:"Rússia",ar:"روسيا",mg:"Rosia",cls:"rru"},
+  wo:{flag:"🌐",fr:"Monde",en:"World",es:"Mundo",pt:"Mundo",ar:"العالم",mg:"Izao tontolo izao",cls:"rwo"}
+};
+function rl(k){var r=RG[k]||RG.wo;return r[L]||r.fr;}
+function rc(k){return(RG[k]||RG.wo).cls;}
+function rf(k){return(RG[k]||RG.wo).flag;}
+function rclr(n){return["","#ef5350","#ff9800","#fdd835","#66bb6a","#43a047"][n]||"#aaa";}
+
+function relBar(n,big){var cls=big?"rslg":"rs";return[1,2,3,4,5].map(function(i){return'<span class="'+cls+'" style="background:'+(i<=n?rclr(n):"var(--bd2)")+'"></span>';}).join("");}
+function badge(r){return'<span class="creg '+rc(r)+'">'+rf(r)+" "+rl(r)+"</span>";}
+function relDate(ms){
+  if(!ms)return"";var diff=Date.now()-ms,m=Math.floor(diff/60000),h=Math.floor(diff/3600000),d=Math.floor(diff/86400000);
+  if(m<2)return"Maintenant";if(m<60)return m+"min";if(h<24)return h+"h";if(d<30)return d+"j";
+  return new Date(ms).toLocaleDateString("fr-FR",{day:"2-digit",month:"short"});
+}
+
+// Déduplication légère côté client
+function dedup(arr){
+  var seen=[];
+  return arr.filter(function(a){
+    if(!a.headline||a.headline.length<8)return false;
+    var words=new Set(a.headline.toLowerCase().split(/\W+/).filter(function(w){return w.length>4;}));
+    if(!words.size)return true;
+    var dup=seen.some(function(s){var inter=0;words.forEach(function(w){if(s.has(w))inter++;});var uni=new Set([...words,...s]).size;return uni>0&&inter/uni>0.55;});
+    if(!dup){seen.push(words);return true;}return false;
+  });
+}
+
+// Archives
+var ARC={
+  k:function(d){return"mv10_"+d;},ik:"mv10_idx",
+  today:function(){return new Date().toISOString().slice(0,10);},
+  save:function(arts){
+    var dk=this.today();
+    var slim=arts.slice(0,100).map(function(a){return{headline:a.headline,summary:a.summary,body:a.body,date:a.date,ms:a.ms,region:a.region,category:a.category,source:a.source,reliability:a.reliability,thumbnail:a.thumbnail,articleUrl:a.articleUrl,id:a.id};});
+    try{localStorage.setItem(this.k(dk),JSON.stringify({articles:slim,ts:Date.now()}));var idx=this.idx();var ex=idx.find(function(x){return x.date===dk;});if(ex){ex.count=slim.length;}else{idx.unshift({date:dk,count:slim.length});}localStorage.setItem(this.ik,JSON.stringify(idx.slice(0,90)));}catch(e){}
+  },
+  idx:function(){try{var r=localStorage.getItem(this.ik);return r?JSON.parse(r):[];}catch(e){return[];}},
+  load:function(d){try{var r=localStorage.getItem(this.k(d));return r?JSON.parse(r):null;}catch(e){return null;}}
+};
+
+var G={all:[],filtered:[],cat:"all",view:"list",selReg:null,archDate:null,archArts:[],busy:false,cd:1800,cdTimer:null};
+function applyFilter(arts,cat){return cat==="all"?arts:arts.filter(function(a){return a.category===cat;});}
+
+function buildTicker(arts){
+  if(!arts.length)return;
+  document.getElementById("ttrack").innerHTML=arts.concat(arts).map(function(a){return'<div class="titem">'+a.headline+'</div>';}).join("");
+}
+
+function renderCard(a,idx){
+  var img=a.thumbnail?'<img class="cimg" src="'+a.thumbnail+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="cph">'+rf(a.region)+'</div>';
+  return'<div class="card" onclick="Modal.open('+idx+')">'+img+'<div class="cbody">'+badge(a.region)+'<div class="csrc"><span class="fdot" style="background:'+a.source.color+'"></span>'+a.source.name+'</div><h2 class="chl">'+a.headline+'</h2><p class="csum">'+a.summary+'</p><div class="cft"><span class="cdate">'+relDate(a.ms)+'</span><button class="cread">→</button></div></div></div>';
+}
+function renderFeatured(a,idx,others){
+  var img=a.thumbnail?'<img class="fimg" src="'+a.thumbnail+'" alt="" onerror="this.style.display=\'none\'" loading="lazy">':"";
+  var links=others.slice(0,4).map(function(x,i){return'<div class="fslink" onclick="Modal.open('+(i+1)+')">'+x.headline+'</div>';}).join("");
+  var extra=others.length?'<div class="fslbl" style="margin-top:10px;margin-bottom:6px">RÉCENT</div><div class="fslinks">'+links+'</div>':"";
+  return'<div class="feat"><div class="fmain"><div class="fkick">'+badge(a.region)+' '+t("featured")+'</div><h1 class="fhl">'+a.headline+'</h1><p class="fsum">'+a.summary+'</p><div class="fmeta"><span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t2);display:flex;align-items:center;gap:6px"><span class="fdot" style="background:'+a.source.color+'"></span>'+a.source.name+'</span><span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t3)">'+relDate(a.ms)+'</span><div class="relw">'+relBar(a.reliability)+'</div></div><button class="fcta" onclick="Modal.open('+idx+')">'+t("read")+'</button></div><div class="fside"><div class="fslbl">'+t("featured")+'</div>'+img+'<div style="font-size:.82rem;color:var(--t2);line-height:1.65;font-weight:300">'+a.summary+'</div>'+extra+'</div></div>';
+}
+function renderList(arts){
+  if(!arts.length)return'<div class="sbox"><div class="sbt">'+t("noRes")+'</div><div class="sbs">Vérifiez votre connexion</div><button class="rbtn" onclick="App.load()">'+t("retry")+'</button></div>';
+  var rest=arts.slice(1);
+  return renderFeatured(arts[0],0,rest)+(rest.length?'<div class="sechd"><h2>'+t("allNews")+'</h2><span class="seccnt">'+rest.length+' '+t("arts")+'</span></div><div class="grid">'+rest.map(function(a,i){return renderCard(a,i+1);}).join("")+'</div>':"");
+}
+function renderMap(arts){
+  var byR={};arts.forEach(function(a){(byR[a.region]=byR[a.region]||[]).push(a);});
+  var cards=Object.keys(RG).map(function(r){var rm=RG[r],ss=byR[r]||[],sel=G.selReg===r;return'<div class="mcard'+(sel?" sel":"")+'" onclick="App.selReg(\''+r+'\')">'+'<span class="mcflag">'+rm.flag+'</span><div class="mcname">'+(rm[L]||rm.fr)+'</div><div class="mccnt">'+ss.length+' '+t("arts")+'</div>'+(ss[0]?'<div class="mctop">'+ss[0].headline.slice(0,60)+'…</div>':"")+'</div>';}).join("");
+  var detail="";
+  if(G.selReg){var ss=byR[G.selReg]||[],rm=RG[G.selReg]||RG.wo;detail=ss.length?'<div style="margin-top:22px"><div class="sechd"><h2>'+rm.flag+' '+(rm[L]||rm.fr)+'</h2><span class="seccnt">'+ss.length+' '+t("arts")+'</span></div><div class="grid">'+ss.map(function(a){return renderCard(a,arts.indexOf(a));}).join("")+'</div></div>':'<div class="sbox" style="padding:30px"><div class="sbt">'+t("sel")+'</div></div>';}
+  return'<div><div class="sechd"><h2>'+t("mapTitle")+'</h2></div><div class="mapgrid">'+cards+'</div>'+detail+'</div>';
+}
+function renderArchive(){
+  var idx=ARC.idx();
+  var list=idx.length?'<div class="archlist">'+idx.map(function(item){return'<div class="architem'+(G.archDate===item.date?" on":"")+'" onclick="App.loadArch(\''+item.date+'\')">'+'<div><div class="aidate">'+item.date+'</div><div class="aimeta">'+item.count+' '+t("arts")+'</div></div><span style="color:var(--t3)">›</span></div>';}).join("")+'</div>':'<div class="aiempty">'+t("noArch")+'</div>';
+  var stored=G.archArts.length?'<div style="margin-top:24px"><div class="sechd"><h2>'+G.archDate+'</h2><span class="seccnt">'+G.archArts.length+' '+t("arts")+'</span></div><div class="grid">'+G.archArts.map(function(a,i){return renderCard(a,-(i+1));}).join("")+'</div></div>':"";
+  return'<div><div class="archtitle">'+t("archTitle")+'</div><div class="archsub">'+t("archDesc")+'</div>'+list+stored+'</div>';
+}
+
+var Modal={
+  open:function(idx){
+    var a=idx<0?G.archArts[Math.abs(idx)-1]:G.filtered[idx];if(!a)return;
+    var mhimg=a.thumbnail?'<img class="mhimg" src="'+a.thumbnail+'" alt="" onerror="this.style.display=\'none\'" loading="lazy">':"";
+    var body=(a.body&&a.body.includes("<p")&&a.body.length>60)?a.body:"<p>"+a.summary+"</p>";
+    var rd=tRel(a.reliability);
+    var origBtn=a.articleUrl?'<a class="origbtn" href="'+a.articleUrl+'" target="_blank" rel="noopener">↗ '+t("orig")+'</a>':"";
+    var ytQ=encodeURIComponent(a.headline);
+    var ytBlock='<div class="ytblock"><div class="ytlbl">'+t("vidTitle")+'</div><div class="ytwrap"><iframe src="https://www.youtube.com/embed?listType=search&list='+ytQ+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>';
+    document.getElementById("mcontent").innerHTML='<button class="mclose" onclick="Modal.close()">✕</button><div class="mhead">'+mhimg+badge(a.region)+'<h2 class="mhl">'+a.headline+'</h2><div class="mmeta"><span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t2);display:flex;align-items:center;gap:6px"><span class="fdot" style="background:'+a.source.color+'"></span><strong>'+a.source.name+'</strong></span><span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t3)">'+relDate(a.ms)+'</span><div class="relw">'+relBar(a.reliability)+'<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t3);margin-left:5px">'+rd+'</span></div></div></div><div class="mbody"><div class="atext">'+body+'</div>'+(origBtn?'<div style="margin-bottom:18px">'+origBtn+'</div>':"")+ytBlock+'<hr class="divider"><div class="relblock"><div class="mlbl">'+t("reliability")+'</div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+relBar(a.reliability,true)+'<span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:'+rclr(a.reliability)+'">'+a.reliability+'/5</span></div><div class="reldesc">'+rd+'</div></div><div class="mlbl">'+t("sources")+'</div><div class="srcrow"><span class="srcbadge" style="color:'+a.source.color+';border-color:'+a.source.color+'">RSS</span><div><a class="srclink" href="'+(a.articleUrl||"#")+'" target="_blank" rel="noopener">'+a.source.name+' ↗</a><div class="srcurl">'+(a.articleUrl||"")+'</div></div></div></div>';
+    document.getElementById("amod").classList.add("open");document.body.style.overflow="hidden";
+  },
+  close:function(){var i=document.querySelector("#mcontent iframe");if(i){var s=i.src;i.src="";i.src=s;}document.getElementById("amod").classList.remove("open");document.body.style.overflow="";}
+};
+
+var Search={
+  open:function(){var v=document.getElementById("si").value.trim();document.getElementById("sovl").classList.add("open");var inp=document.getElementById("sinp");inp.value=v;inp.focus();if(v)this.run();else this.showPh();document.body.style.overflow="hidden";},
+  close:function(){document.getElementById("sovl").classList.remove("open");document.body.style.overflow="";},
+  showPh:function(){var tags=(t("tags")||[]).map(function(tag){return'<span class="stag" onclick="document.getElementById(\'sinp\').value=\''+tag+'\';Search.run()">'+tag+'</span>';}).join("");document.getElementById("sbody").innerHTML='<div class="sph">'+t("srchPh")+'<div style="margin-top:12px">'+tags+'</div></div>';},
+  run:function(){
+    var q=document.getElementById("sinp").value.trim().toLowerCase();if(!q){this.showPh();return;}
+    var hits=G.all.filter(function(a){var txt=(a.headline+" "+a.summary).toLowerCase();return q.split(/\s+/).every(function(w){return txt.includes(w);});});
+    if(!hits.length){document.getElementById("sbody").innerHTML='<div class="sph">'+t("noRes")+'</div>';return;}
+    document.getElementById("sbody").innerHTML=hits.map(function(a){var gi=G.all.indexOf(a);return'<div class="sr" onclick="Search.pick('+gi+')">'+'<div style="display:flex;gap:7px;align-items:center;margin-bottom:4px"><span class="creg '+rc(a.region)+'" style="font-size:8px;padding:1px 5px">'+rf(a.region)+" "+rl(a.region)+'</span><span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t3)"><span class="fdot" style="background:'+a.source.color+';display:inline-block;margin-right:4px"></span>'+a.source.name+'</span><span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--t3)">'+relDate(a.ms)+'</span></div><div class="srhl">'+a.headline+'</div><div class="srsum">'+a.summary+'</div></div>';}).join("")+'<div class="snote">'+hits.length+' '+t("arts")+'</div>';
+  },
+  pick:function(gi){var a=G.all[gi];if(!a){this.close();return;}this.close();var fi=G.filtered.indexOf(a);if(fi>-1){Modal.open(fi);}else{G.filtered.unshift(a);Modal.open(0);}}
+};
+
+var _pt;
+function prog(p){document.getElementById("prog").style.width=p+"%";clearTimeout(_pt);if(p>=100)_pt=setTimeout(function(){document.getElementById("prog").style.width="0";},700);}
+function updateClock(){var el=document.getElementById("clock");if(el)el.textContent=new Date().toLocaleString("fr-FR",{weekday:"short",day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});}
+function startCd(){
+  clearInterval(G.cdTimer);G.cd=1800;
+  G.cdTimer=setInterval(function(){G.cd--;if(G.cd<=0){clearInterval(G.cdTimer);App.load();return;}var m=String(Math.floor(G.cd/60)).padStart(2,"0"),s=String(G.cd%60).padStart(2,"0");var el=document.getElementById("cdlbl");if(el)el.textContent=t("nextLoad")+" "+m+":"+s;},1000);
+}
+
+var App={
+  load:function(){
+    if(G.busy)return;G.busy=true;prog(20);
+    document.getElementById("main").innerHTML='<div class="sbox"><div class="spin"></div><div class="sbt">'+t("loading")+'</div><div class="sbs">France24 · RFI · Le Monde · BBC · Al Jazeera · DW</div></div>';
+    // Appel direct à notre propre API — rapide, pas de proxy
+    fetch("/api/feeds")
+      .then(function(r){if(!r.ok)throw new Error("API HTTP "+r.status);return r.json();})
+      .then(function(data){
+        prog(85);
+        if(!data.ok||!data.articles)throw new Error("Réponse API invalide");
+        var unique=dedup(data.articles);
+        G.all=unique;G.filtered=applyFilter(unique,G.cat);
+        buildTicker(unique);App.render();ARC.save(unique);
+        document.getElementById("navinfo").textContent=unique.length+" "+t("arts");
+        startCd();prog(100);G.busy=false;
+      })
+      .catch(function(e){
+        document.getElementById("main").innerHTML='<div class="sbox"><div class="sbt" style="color:var(--red)">⚠ '+t("retry")+'</div><div class="sbs">'+e.message+'</div><button class="rbtn" onclick="App.load()">'+t("retry")+'</button></div>';
+        prog(0);G.busy=false;
+      });
+  },
+  render:function(){var el=document.getElementById("main");if(G.view==="list")el.innerHTML=renderList(G.filtered);else if(G.view==="map")el.innerHTML=renderMap(G.filtered);else el.innerHTML=renderArchive();},
+  setCat:function(cat,btn){document.querySelectorAll(".nt[data-cat]").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");G.cat=cat;G.filtered=applyFilter(G.all,cat);if(G.view!=="archive")App.render();},
+  setView:function(view,btn){document.querySelectorAll(".nt.view").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");G.view=view;App.render();},
+  selReg:function(key){G.selReg=G.selReg===key?null:key;if(G.view==="map")App.render();},
+  loadArch:function(date){G.archDate=date;var data=ARC.load(date);G.archArts=data?data.articles:[];document.getElementById("main").innerHTML=renderArchive();}
+};
+
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){Modal.close();Search.close();}if(e.key==="/"&&!["INPUT","TEXTAREA"].includes(e.target.tagName)){e.preventDefault();Search.open();}});
+setInterval(updateClock,1000);updateClock();Search.showPh();App.load();
+</script>
+</body>
+</html>
