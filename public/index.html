@@ -393,7 +393,7 @@ var App={
     if(G.busy)return;G.busy=true;prog(20);
     document.getElementById("main").innerHTML='<div class="sbox"><div class="spin"></div><div class="sbt">'+t("loading")+'</div><div class="sbs">France24 · RFI · Le Monde · BBC · Al Jazeera · DW</div></div>';
     // Appel direct à notre propre API — rapide, pas de proxy
-    fetch("/api/feeds")
+    fetch("/api/feeds?lang=" + L)
       .then(function(r){if(!r.ok)throw new Error("API HTTP "+r.status);return r.json();})
       .then(function(data){
         prog(85);
